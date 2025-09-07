@@ -1,0 +1,32 @@
+{
+  "name": "youtube-productivity-monorepo",
+  "version": "1.0.0",
+  "description": "A monorepo for YouTube productivity tools",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "make dev",
+    "dev:frontend": "make dev-frontend",
+    "dev:backend": "make dev-backend",
+    "install:all": "make install",
+    "clean": "make clean"
+  },
+  "keywords": [
+    "youtube",
+    "productivity",
+    "monorepo",
+    "fastapi",
+    "react",
+    "nextjs"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.0"
+}
