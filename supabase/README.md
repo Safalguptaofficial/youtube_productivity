@@ -82,7 +82,7 @@ Create a `.env` file in your project root with the following variables:
 
 ```env
 # Supabase Configuration
-SUPABASE_URL=https://[YOUR-PROJECT-REF].supabase.co
+SUPABASE_URL=https://suyeypladnzdbbfpuoew.supabase.co
 SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1eWV5cGxhZG56ZGJiZnB1b2V3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcyMjI1MjMsImV4cCI6MjA3Mjc5ODUyM30.NSj4ykYyk-xhHqTp9bpznJWRMmbp1zB3F_Vi9pgwXlU
 SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1eWV5cGxhZG56ZGJiZnB1b2V3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NzIyMjUyMywiZXhwIjoyMDcyNzk4NTIzfQ.OoVLUdVYcXdELOBQHsoo-0TpWhfGmlRCmPFCd468J34
 SUPABASE_BUCKET=youtube-productivity-files

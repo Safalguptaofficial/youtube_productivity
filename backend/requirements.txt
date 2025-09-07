@@ -1,0 +1,11 @@
+uvicorn[standard]
+fastapi
+pydantic
+yt-dlp
+transformers
+torch
+sentencepiece
+supabase
+python-dotenv
+aiofiles
+httpx

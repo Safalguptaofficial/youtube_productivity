@@ -16,20 +16,51 @@ A monorepo for building productivity tools around YouTube content management and
 
 ## Development Setup
 
-### Start Backend
+### Backend (FastAPI)
+
+1. **Setup Python environment:**
 ```bash
 cd backend
 python -m venv .venv
-. .venv/bin/activate
+. .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+```
+
+2. **Configure environment:**
+```bash
+cp .env.example .env
+# Edit .env with your Supabase credentials
+```
+
+3. **Run the backend:**
+```bash
 uvicorn main:app --reload --port 8000
 ```
 
-### Start Frontend
+4. **Test the API:**
+```bash
+curl http://localhost:8000/health
+# Expected: {"status":"ok"}
+```
+
+### Frontend (React/Next.js)
 ```bash
 cd frontend
 pnpm install
 pnpm dev
+```
+
+## Docker Setup
+
+### Build Backend Docker Image
+```bash
+cd backend
+docker build -t yt-prod-backend .
+```
+
+### Run Backend Container
+```bash
+docker run -p 8000:8000 --env-file .env yt-prod-backend
 ```
 
 ## Quick Start
