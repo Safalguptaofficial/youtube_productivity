@@ -11,6 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, HttpUrl
 from dotenv import load_dotenv
 from worker import fetch_metadata, get_transcript_vtt, vtt_to_text, process_youtube_video, YouTubeProcessingError
+from summarizer import process_text as summarize_text, extract_keywords, SummarizationError
 
 # Load environment variables
 load_dotenv()
@@ -48,6 +49,22 @@ class VideoProcessingResponse(BaseModel):
     description: str
     transcript_path: str = None
     transcript_text: str = None
+    short_summary: str = None
+    long_summary: str = None
+    keywords: list = None
+
+
+class SummarizeRequest(BaseModel):
+    text: str
+    extract_keywords: bool = True
+
+
+class SummarizeResponse(BaseModel):
+    short_summary: str
+    long_summary: str
+    keywords: list
+    num_chunks: int
+    total_tokens: int
 
 
 @asynccontextmanager
@@ -138,6 +155,24 @@ async def process_video(request: VideoProcessingRequest):
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 
+@app.post("/api/v1/summarize", response_model=SummarizeResponse)
+async def summarize_text_endpoint(request: SummarizeRequest):
+    """Summarize text and extract keywords"""
+    try:
+        result = summarize_text(request.text, extract_keywords=request.extract_keywords)
+        return SummarizeResponse(
+            short_summary=result.short_summary,
+            long_summary=result.long_summary,
+            keywords=result.keywords,
+            num_chunks=result.num_chunks,
+            total_tokens=result.total_tokens
+        )
+    except SummarizationError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+
+
 @app.get("/api/v1/test")
 async def test_worker():
     """Test endpoint for worker functionality"""
@@ -158,6 +193,30 @@ async def test_worker():
         return {
             "status": "error",
             "message": f"Worker test failed: {str(e)}"
+        }
+
+
+@app.get("/api/v1/test/summarizer")
+async def test_summarizer():
+    """Test endpoint for summarizer functionality"""
+    try:
+        # Test with sample text
+        sample_text = "Artificial intelligence is transforming the world. It helps in healthcare, finance, and transportation. However, it also brings challenges like job displacement and privacy concerns."
+        
+        # Test keyword extraction (lighter operation)
+        keywords = extract_keywords(sample_text, top_k=5)
+        
+        return {
+            "status": "success",
+            "message": "Summarizer module is functioning correctly",
+            "test_keywords": keywords,
+            "sample_text_length": len(sample_text),
+            "note": "Full summarization requires model download or HF_API_KEY"
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": f"Summarizer test failed: {str(e)}"
         }
 
 
